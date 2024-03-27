@@ -1,77 +1,40 @@
-# Búsqueda de películas con JavaScript
+# Buscador de Películas
 
-Link para ver resultado: [BUSCADOR PELICULAS FINALIZADO]()
+Este proyecto consiste en un buscador de películas que utiliza la API de The Movie Database (TMDb) para buscar y mostrar información detallada sobre películas.
 
-Aplicación de buscador de películas utilizando JavaScript. La aplicación utiliza la API de The Movie Database (TMDb) para buscar películas y mostrar sus detalles. A continuación, se proporciona una explicación paso a paso del código JavaScript necesario para que funcione la aplicación.
+## Funcionalidades
 
-## Paso 1: Configuración de la API
+- **Búsqueda de Películas:** Los usuarios pueden buscar películas por título.
+- **Información Detallada:** Se muestra información detallada de las películas encontradas, incluyendo título, fecha de lanzamiento y sinopsis.
+- **Imágenes de Películas:** Las imágenes de las películas se obtienen directamente de la API de TMDb.
 
-Antes de comenzar, necesitarás obtener una clave de API de TMDb. Puedes obtener una clave de API registrándote en el sitio web de TMDb. Una vez que tengas tu clave de API, reemplaza `'API_KEY'` en el código con tu clave de API.
+## Tecnologías Utilizadas
 
-    let api_key = 'TU_CLAVE_DE_API'
+- **HTML:** Para la estructura del sitio web.
+- **CSS:** Para estilizar la interfaz de usuario.
+- **JavaScript:** Para la interacción con la API de TMDb y la manipulación del DOM.
 
-## Paso 2: Definición de las URL de la API
+## Instalación
 
-A continuación, definiremos las URL base de la API y la URL base de las imágenes de las películas. Estas URL se utilizarán para realizar la búsqueda de películas y mostrar las imágenes de las mismas respectivamente.
+1. Clona este repositorio en tu máquina local usando Git:
 
-    let urlBase = 'https://api.themoviedb.org/3/search/movie'
-    let urlImg = 'https://image.tmdb.org/t/p/w200'
+    ```bash
+    git clone https://github.com/HenrryCh/app-buscador-peliculas.git
+    ```
 
-## Paso 3: Obtención de elementos del DOM
+2. Abre el archivo `index.html` en tu navegador web.
 
-En este paso, obtenemos los elementos HTML necesarios para interactuar con la aplicación. Utilizamos `getElementById` para obtener el botón de búsqueda y el campo de entrada de texto.
+## Demo
 
-    document.getElementById('searchButton').addEventListener('click', searchMovies)
-    let resultContainer = document.getElementById('results')
+Puedes ver una demostración en vivo del proyecto [aquí](https://henrrych.github.io/app-buscador-peliculas/).
 
-## Paso 4: Función de búsqueda de películas
 
-La función `searchMovies` se ejecuta cuando se hace clic en el botón de búsqueda. Obtiene el valor ingresado en el campo de entrada de texto y realiza una solicitud a la API de TMDb para buscar películas que coincidan con el término de búsqueda.
+## Autor
 
-    function searchMovies(){
-        resultContainer.innerHTML = 'Cargando...'
-        let searchInput = document.getElementById('searchInput').value
-        fetch(`${urlBase}?api_key=${api_key}&query=${searchInput}`)
-        .then(response => response.json())
-        .then(response => displayMovies(response.results))
-    }
+Este proyecto fue creado por [Henrry Chariguaman](https://github.com/HenrryCh).
 
-## Paso 5: Función para mostrar las películas encontradas
+## Licencia
 
-La función `displayMovies` se utiliza para mostrar los resultados de la búsqueda de películas. Borra el contenido anterior del contenedor de resultados y luego itera sobre la lista de películas encontradas. Para cada película, crea elementos HTML para mostrar su título, fecha de lanzamiento, descripción y póster.
+Este proyecto está bajo la [Licencia MIT](LICENSE).
 
-    function displayMovies(movies){
-        resultContainer.innerHTML = ''
-    
-        if(movies.length === 0){
-            resultContainer.innerHTML= '<p>No se encontraron resultados para tu búsqueda </p>'
-            return
-        }
-    
-        movies.forEach(movie => {
-            let movieDiv = document.createElement('div')
-            movieDiv.classList.add('movie')
-    
-            let title = document.createElement('h2')
-            title.textContent = movie.title
-    
-            let releaseDate = document.createElement('p')
-            releaseDate.textContent = 'La fecha de lanzamiento fue: ' + movie.release_date
-    
-            let overview = document.createElement('p')
-            overview.textContent = movie.overview
-    
-            let posterPath = urlImg + movie.poster_path
-            let poster = document.createElement('img')
-            poster.src = posterPath
-    
-            movieDiv.appendChild(poster)
-            movieDiv.appendChild(title)
-            movieDiv.appendChild(releaseDate)
-            movieDiv.appendChild(overview)
-    
-            resultContainer.appendChild(movieDiv)
-        })
-    }
 
-¡Y eso es todo! Siguiendo estos pasos, habrás creado una aplicación de buscador de películas en JavaScript utilizando la API de TMDb. Ahora puedes probar tu aplicación y ver cómo muestra los resultados de búsqueda de películas.

@@ -1,57 +1,52 @@
-document.getElementById('searchButton').addEventListener('click', searchMovies)
+document.getElementById('searchButton').addEventListener('click', searchMovies);
 
-let api_key='1fb124c813ff29c75f52f4344e21f7e0'
-const urlBase ='https://api.themoviedb.org/3/search/movie'
-let urlImg = 'https://image.tmdb.org/t/p/w200'
+const apiKey = '1fb124c813ff29c75f52f4344e21f7e0';
+const urlBase = 'https://api.themoviedb.org/3/search/movie';
+const urlImg = 'https://image.tmdb.org/t/p/w200';
+const resultContainer = document.getElementById('results');
 
+function searchMovies() {
+    resultContainer.innerHTML = 'Cargando...';
 
-let resultContainer = document.getElementById('results')
-    
-function searchMovies(){
-    resultContainer.innerHTML = 'Cargando..'
+    const searchInput = document.getElementById('searchInput').value;
 
-    let searchInput = document.getElementById('searchInput').value
-
-    fetch(`${urlBase}?api_key=${api_key}&query=${searchInput}`)
-    .then(response => response.json())
-    .then(response => displayMovies(response.results))
+    fetch(`${urlBase}?api_key=${apiKey}&query=${searchInput}`)
+        .then(response => response.json())
+        .then(response => displayMovies(response.results));
 }
 
-function displayMovies(movies){
-    resultContainer.innerHTML = ''
+function displayMovies(movies) {
+    resultContainer.innerHTML = '';
 
-    if(movies.length === 0){
-        resultContainer.innerHTML='<p>No se ecnontraron reultados para tu busqueda</p>'
-        return
+    if (movies.length === 0) {
+        resultContainer.innerHTML = '<p>No se encontraron resultados para tu búsqueda</p>';
+        return;
     }
 
     movies.forEach(movie => {
-        let movieDiv = document.createElement('div')
-        movieDiv.classList.add('movie')
+        const movieDiv = document.createElement('div');
+        movieDiv.classList.add('movie');
 
-        let title = document.createElement('h2')
-        title.textContent = movie.title
+        const title = document.createElement('h2');
+        title.textContent = movie.title;
 
-        let releaseDate = document.createElement('p')
-        releaseDate.textContent = 'La feca de lanzamiento fue: '+ movie.release_date
+        const releaseDate = document.createElement('p');
+        releaseDate.textContent = 'Fecha de lanzamiento: ' + movie.release_date;
 
-        let overview = document.createElement('p')
-        overview.textContent = movie.overview
+        const overview = document.createElement('p');
+        overview.textContent = movie.overview;
 
-        let posterPath = urlImg + movie.poster_path
+        const posterPath = movie.poster_path ? urlImg + movie.poster_path : 'https://via.placeholder.com/100';
 
-        let poster = document.createElement('img')
-        poster.src = posterPath
-        
-        resultContainer.appendChild(movieDiv)
-        movieDiv.appendChild(poster)
-        movieDiv.appendChild(title)
-        movieDiv.appendChild(releaseDate)
-        movieDiv.appendChild(overview)
+        const poster = document.createElement('img');
+        poster.src = posterPath;
+        poster.alt = movie.title;
 
-        
-    
+        movieDiv.appendChild(poster);
+        movieDiv.appendChild(title);
+        movieDiv.appendChild(releaseDate);
+        movieDiv.appendChild(overview);
 
+        resultContainer.appendChild(movieDiv);
     });
-
 }
